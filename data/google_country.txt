@@ -1,0 +1,186 @@
+Andorra
+United Arab Emirates
+Albania
+Armenia
+American Samoa
+Austria
+Azerbaijan
+Bosnia and Herzegovina
+Belgium
+Burkina Faso
+Bulgaria
+Burundi
+Benin
+Bahamas
+Bhutan
+Belarus
+Canada
+Democratic Republic of the Congo
+Central African Republic
+Republic of the Congo
+Switzerland
+Ivory Coast
+Chile
+Cameroon
+Angola
+Botswana
+Cook Islands
+Costa Rica
+Indonesia
+Israel
+India
+Japan
+Kenya
+South Korea
+Lesotho
+Morocco
+Mozambique
+New Zealand
+Thailand
+Tanzania
+Uganda
+United Kingdom
+Uzbekistan
+Venezuela
+United States Virgin Islands
+South Africa
+Zambia
+Zimbabwe
+United States
+Afghanistan
+Antigua and Barbuda
+Anguilla
+Argentina
+Australia
+Bangladesh
+Bahrain
+Brunei
+Bolivia
+Brazil
+Belize
+Colombia
+Cuba
+Cyprus
+Dominican Republic
+Ecuador
+Egypt
+Ethiopia
+Fiji
+Ghana
+Gibraltar
+Guatemala
+Hong Kong
+Jamaica
+Cambodia
+Kuwait
+Lebanon
+Libya
+Myanmar
+Malta
+Mexico
+Malaysia
+Namibia
+Nigeria
+Nicaragua
+Nepal
+Oman
+Panama
+Peru
+Papua New Guinea
+Philippines
+Pakistan
+Puerto Rico
+Paraguay
+Qatar
+Saudi Arabia
+Solomon Islands
+Singapore
+Sierra Leone
+El Salvador
+Tajikistan
+Turkiye
+Turkey
+Taiwan
+Ukraine
+Uruguay
+Saint Vincent and the Grenadines
+Vietnam
+Cape Verde
+Czech Republic
+Germany
+Djibouti
+Denmark
+Dominica
+Algeria
+Estonia
+Spain
+Finland
+Micronesia, Federated States of
+France
+Gabon
+Georgia
+Greenland
+Gambia
+Guadeloupe
+Greece
+Guyana
+Honduras
+Croatia
+Haiti
+Hungary
+Ireland
+Iraq
+Iceland
+Italy
+Jersey
+Jordan
+Kyrgyzstan
+Kiribati
+Kazakhstan
+Laos
+Liechtenstein
+Sri Lanka
+Lithuania
+Luxembourg
+Latvia
+Moldova
+Madagascar
+Macedonia
+Mali
+Mongolia
+Montserrat
+Mauritius
+Maldives
+Malawi
+Niger
+Netherlands
+Norway
+Nauru
+Niue
+Poland
+Palestine
+Portugal
+Romania
+Serbia
+Russia
+Rwanda
+Seychelles
+Sweden
+Saint Helena, Ascension and Tristan da Cunha
+Slovenia
+Slovakia
+San Marino
+Senegal
+Somalia
+Suriname
+Chad
+Togo
+Tokelau
+Timor-Leste
+Turkmenistan
+Tunisia
+Tonga
+Trinidad and Tobago
+British Virgin Islands
+Vanuatu
+Samoa
