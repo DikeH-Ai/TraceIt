@@ -148,43 +148,48 @@ def geo_location() -> dict:
 
 
 def loaction_geo_location() -> dict:
-    # get location list
-    locations = []
-    with open("./data/locations_list.txt", "r",  encoding="utf-8") as file:
-        locations = file.readlines()
-    locations = [location.strip() for location in locations]
+    try:
+        # get location list
+        locations = []
+        with open("./data/locations_list.txt", "r",  encoding="utf-8") as file:
+            locations = file.readlines()
+        locations = [location.strip() for location in locations]
 
-    question1 = [
-        inquirer.Text(
-            'location', message="Location", default=None)
-    ]
+        question1 = [
+            inquirer.Text(
+                'location', message="Location", default=None)
+        ]
 
-    input_text = inquirer.prompt(question1)
-    matches = get_top_matches(
-        # sort based on token ratio
-        input_text["location"], locations, filter=fuzz.token_sort_ratio)
-    matches = [match[0] for match in matches]
-    matches.append(None)
-    question2 = [
-        inquirer.List(
-            'location', message="Select Location", choices=matches)
-    ]
+        input_text = inquirer.prompt(question1)
+        matches = get_top_matches(
+            # sort based on token ratio
+            input_text["location"], locations, filter=fuzz.token_sort_ratio)
+        matches = [match[0] for match in matches]
+        matches.append(None)
+        question2 = [
+            inquirer.List(
+                'location', message="Select Location", choices=matches)
+        ]
 
-    selected_loc = inquirer.prompt(question2)
-    if selected_loc["location"]:
-        return selected_loc
-
+        selected_loc = inquirer.prompt(question2)
+        if selected_loc["location"]:
+            return selected_loc
+    except Exception as e:
+        print(f"An error has occured(func: loaction_geo_location): {str(e)}")
 # Function to get the top 10 closest matches using rapidwuzzy
 
 
 def get_top_matches(user_input, location_list, filter=None, top_n=10):
-    if filter:
-        matches = process.extract(
-            user_input, location_list, limit=top_n, scorer=filter)
-        return matches
-    else:
-        matches = process.extract(user_input, location_list, limit=top_n)
-        return matches
+    try:
+        if filter:
+            matches = process.extract(
+                user_input, location_list, limit=top_n, scorer=filter)
+            return matches
+        else:
+            matches = process.extract(user_input, location_list, limit=top_n)
+            return matches
+    except Exception as e:
+        print(f"An error has occured(func: get_top_matches): {str(e)}")
 
 
 def localization() -> dict:
@@ -202,7 +207,7 @@ def localization() -> dict:
             elif answer["options"] == "Country":
                 return localization_country()
             elif answer["options"] == "Language":
-                pass
+                return localization_language()
             elif answer["options"] == "Set Multiple Languages":
                 question4 = [
                     inquirer.Text(
@@ -220,60 +225,180 @@ def localization() -> dict:
 
 
 def localization_domain() -> dict:
-    # read domain list from google_domain.txt
-    domains = []
-    with open("./data/google_domains.txt", "r",  encoding="utf-8") as file:
-        domains = file.readlines()
-    domains = [domain.strip() for domain in domains]  # clean list
-    # question1
-    question1 = [
-        inquirer.Text(
-            "domain", message="Input domain(eg. google.ae) or List(to see all domains)")
-    ]
-    answer1 = inquirer.prompt(question1)
-    # if List is typed
-    if answer1["domain"].lower() == "list":
-        question1b = [
-            inquirer.List(
-                "domain", message="pick a domain", choices=domains)
+    try:
+        # read domain list from google_domain.txt
+        domains = []
+        with open("./data/google_domains.txt", "r",  encoding="utf-8") as file:
+            domains = file.readlines()
+        domains = [domain.strip() for domain in domains]  # clean list
+        # question1
+        question1 = [
+            inquirer.Text(
+                "domain", message="Input domain(eg. google.ae) or List(to see all domains)")
         ]
-        answer1b = inquirer.prompt(question1b)
-        if answer1b["domain"]:
-            return set_parameter(answer1b)
-    # compare answer to list
-    matches = get_top_matches(answer1["domain"], domains)
-    matches = [match[0] for match in matches]  # top 5 matches
-    matches.append(None)  # append None option for exit feature
-    # pick the right domain
-    question1a = [
-        inquirer.List(
-            "domain", message="Pick a domain", choices=matches)
-    ]
-    answer1a = inquirer.prompt(question1a)
-    # auto set parameter
-    if answer1a["domain"]:
-        return set_parameter(answer1a)
-
+        answer1 = inquirer.prompt(question1)
+        # if List is typed
+        if answer1["domain"].lower() == "list":
+            question1b = [
+                inquirer.List(
+                    "domain", message="pick a domain", choices=domains)
+            ]
+            answer1b = inquirer.prompt(question1b)
+            if answer1b["domain"]:
+                return set_parameter(answer1b)
+        # compare answer to list
+        matches = get_top_matches(answer1["domain"], domains)
+        matches = [match[0] for match in matches]  # top 5 matches
+        matches.append(None)  # append None option for exit feature
+        # pick the right domain
+        question1a = [
+            inquirer.List(
+                "domain", message="Pick a domain", choices=matches)
+        ]
+        answer1a = inquirer.prompt(question1a)
+        # auto set parameter
+        if answer1a["domain"]:
+            return set_parameter(answer1a)
+    except Exception as e:
+        print(f"An error has occured(func: localization_domain): {str(e)}")
 # auto set parameters for associated values
 
 
 def set_parameter(option: dict) -> dict:
-    data = None
-    with open("./data/google-domains.json", "r", encoding="utf8") as file:
-        data = json.load(file)
-    for dict in data:
-        if option["domain"] in dict.values():  # auto assign associated values
-            para = {
-                "google_domain": option["domain"],
-                "gl": dict["country_code"],
-                "hl": dict["language_code"]
-            }
-            print(para)
-            return para
+    try:
+        data = None
+        with open("./data/google-domains.json", "r", encoding="utf8") as file:
+            data = json.load(file)
+        for dict in data:
+            if option["domain"] in dict.values():  # auto assign associated values
+                para = {
+                    "google_domain": option["domain"],
+                    "gl": dict["country_code"],
+                    "hl": dict["language_code"]
+                }
+                print(para)
+                return para
+    except Exception as e:
+        print(f"An error has occured(func: set_parameter): {str(e)}")
+# set country parameter
 
 
 def localization_country() -> dict:
-    pass
+    try:
+        countries = []  # get country list from google_country.txt
+        with open("./data/google_country.txt", "r",  encoding="utf-8") as file:
+            countries = file.readlines()
+        countries = [country.strip() for country in countries]
+        # question
+        question = [
+            inquirer.Text(
+                "country", message="Input country of choice or List(to see all countries available)")
+        ]
+        answer = inquirer.prompt(question)
+
+        if answer["country"].lower() == "list":
+            question1 = [
+                inquirer.List(
+                    "country", message="Select a country", choices=countries)
+            ]
+            answer1 = inquirer.prompt(question1)
+            if answer1:
+                return set_country_code(answer1)
+
+        # compare answer to list
+        matches = get_top_matches(answer["country"], countries)
+        matches = [match[0] for match in matches]  # top 5 matches
+        matches.append(None)  # append None option for exit
+
+        question1a = [
+            inquirer.List("country", message="pick country", choices=matches)
+        ]
+        answer1a = inquirer.prompt(question1a)
+
+        if answer1a:
+            return set_country_code(answer1a)
+    except Exception as e:
+        print(f"An error has occured(func: localization_country): {str(e)}")
+
+# set country code for localization country fuction
+
+
+def set_country_code(option: dict) -> dict:
+    try:
+        data = None
+        with open("./data/google-domains.json", "r", encoding="utf8") as file:
+            data = json.load(file)
+        for dict in data:
+            if option["country"] in dict.values():  # auto assign value
+                para = {
+                    "gl": dict["country_code"],
+                }
+                print(para)
+                return para
+    except Exception as e:
+        print(f"An error has occured(func: country_code): {str(e)}")
+
+# set lanaguage parameter
+
+
+def localization_language() -> dict:
+    try:
+        # get languages list from google_languages.txt
+        languages = []
+        with open("./data/google_languages.txt", "r",  encoding="utf-8") as file:
+            languages = file.readlines()
+        languages = [language.strip() for language in languages]
+
+        question = [
+            inquirer.Text(
+                "language", message="Input language or List (List all languages)")
+        ]
+        answer = inquirer.prompt(question)
+
+        if answer["language"].lower() == "list":
+            question1 = [
+                inquirer.List(
+                    'language', message="Select a language", choices=languages)
+            ]
+            answer1 = inquirer.prompt(question1)
+
+            if answer1:
+                return set_language_parameter(answer1)
+
+        # compare answer to list
+        matches = get_top_matches(answer["language"], languages)
+        matches = [match[0] for match in matches]  # top 5 matches
+        matches.append(None)  # append None option for exit
+
+        question1a = [
+            inquirer.List("language", message="Select Language",
+                          choices=matches)
+        ]
+        answer1a = inquirer.prompt(question1a)
+
+        if answer1a:
+            return set_language_parameter(answer1a)
+
+    except Exception as e:
+        print(f"An error has occured(func: localization_language): {str(e)}")
+
+# set language code for localization_language function
+
+
+def set_language_parameter(option: dict) -> dict:
+    try:
+        data = None
+        with open("./data/google-languages.json", "r", encoding="utf8") as file:
+            data = json.load(file)
+        for dict in data:
+            if option["language"] in dict.values():
+                para = {
+                    "hl": dict["language_code"],  # auto assign value
+                }
+                print(para)
+                return para
+    except Exception as e:
+        print(f"An error has occured(func: set_language_parameters): {str(e)}")
 
 
 if __name__ == "__main__":

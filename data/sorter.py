@@ -7,17 +7,17 @@ import json
 
 def main():
     data = None
-    with open("./data/google-domains.json", "r", encoding="utf8") as file:
+    with open("./data/google-languages.json", "r", encoding="utf8") as file:
         data = json.load(file)
 
-    countries = [con["country_name"] for con in data]
-    with open("./data/google_country.txt", "w", encoding="utf-8") as file:
-        file.write("\n".join(countries))
-    countries = []
-    with open("./data/google_country.txt", "r",  encoding="utf-8") as file:
-        countries = file.readlines()
-    countries = [country.strip() for country in countries]
-    print(countries)
+    languages = [lan["language_name"] for lan in data]
+    with open("./data/google_languages.txt", "w", encoding="utf-8") as file:
+        file.write("\n".join(languages))
+    languages = []
+    with open("./data/google_languages.txt", "r",  encoding="utf-8") as file:
+        languages = file.readlines()
+    languages = [language.strip() for language in languages]
+    print(languages)
     # data = None
     # with open("./data/google-domains.json", "r", encoding="utf8") as file:
     #     data = json.load(file)
