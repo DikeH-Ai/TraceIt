@@ -15,7 +15,7 @@ def set_timer(answer: list, default: bool):
     try:
         time.sleep(7)
         if answer[0] == None:
-            print(f"\nTimeout! Using default answer")
+            print(f"\nTimeout! Using default parameter")
             answer[0] = default
             # press Enter key
             keyboard_controller = Controller()
@@ -68,10 +68,11 @@ def custom_parameters() -> dict:
         func_dict = {
             "Geographic Location": geo_location,
             "Localization": localization,
-            # "Pagination":,
-            # "Advanced Parameters":,
-            # "Advanced Filters":,
-            # "SerpApi Parameters":
+            "Pagination": pagination,
+            "Advanced Parameters": advanced_parameters,
+            "Advanced Filters": advanced_filters,
+            "SerpApi Parameters": serpapi_parameters,
+            "Reset Default parameters": reset_default_parameters,
         }
         # parameters
 
@@ -84,11 +85,13 @@ def custom_parameters() -> dict:
             question = [
                 inquirer.List("settings",
                               message="Select Settings",
-                              choices=["Geographic Location", "Localization", "Pagination", "Advanced Parameters", "Advanced Filters", "SerpApi Parameters", "Exit"]),
+                              choices=["Geographic Location", "Localization", "Pagination", "Advanced Parameters", "Advanced Filters", "SerpApi Parameters",
+                                       "Reset Default parameters", "Exit"]),
             ]
             answers = inquirer.prompt(question)
 
             if answers["settings"] == "Exit":
+                set_custom_parameter_to_default_parameter(parameters)
                 print("Exiting Custom settings")
                 break
             else:
@@ -105,13 +108,11 @@ def default_parameters() -> dict:
     """
         Use the default query parameters
     """
-    parameters = {
-        "engine": "google_reverse_image",
-        "image_url": None,
-        "api_key": "secret_api_key"
-    }
+    data = None
+    with open("./data/default_parameter.json", "r", encoding="utf8") as file:
+        data = json.load(file)
     print("In default")
-    return parameters
+    return data
 
 
 """
@@ -163,7 +164,7 @@ def loaction_geo_location() -> dict:
         input_text = inquirer.prompt(question1)
         matches = get_top_matches(
             # sort based on token ratio
-            input_text["location"], locations, filter=fuzz.token_sort_ratio)
+            input_text["location"], locations)
         matches = [match[0] for match in matches]
         matches.append(None)
         question2 = [
@@ -302,7 +303,7 @@ def localization_country() -> dict:
                     "country", message="Select a country", choices=countries)
             ]
             answer1 = inquirer.prompt(question1)
-            if answer1:
+            if answer1["country"]:
                 return set_country_code(answer1)
 
         # compare answer to list
@@ -362,7 +363,7 @@ def localization_language() -> dict:
             ]
             answer1 = inquirer.prompt(question1)
 
-            if answer1:
+            if answer1["language"]:
                 return set_language_parameter(answer1)
 
         # compare answer to list
@@ -401,6 +402,151 @@ def set_language_parameter(option: dict) -> dict:
         print(f"An error has occured(func: set_language_parameters): {str(e)}")
 
 
+# pagination menu function
+
+def pagination() -> dict:
+    try:
+        question = [
+            inquirer.Text("start", message="start")
+        ]
+        answer = inquirer.prompt(question)
+        if answer["pagination"]:
+            return answer
+    except Exception as e:
+        print(f"An error has occured(func: pagination): {str(e)}")
+
+
+# advanced filter menu function
+
+def advanced_filters() -> dict:
+    try:
+        while True:
+            question = [
+                inquirer.List("settings", message="Select setting",
+                              choices=["Adult Content Filtering", "Advanced Search Parameters", "Go back"])
+            ]
+            answer = inquirer.prompt(questions=question)
+
+            if answer["settings"] == "Adult Content Filtering":
+                question1 = [
+                    inquirer.List("safe", message="Select",
+                                  choices=["active", "off", None])
+                ]
+                answer1 = inquirer.prompt(question1)
+                if answer1["safe"]:
+                    return answer1
+            elif answer["settings"] == "Advanced Search Parameters":
+                question2 = [
+                    inquirer.Text("tbs", message="Enter tbs")
+                ]
+                answer2 = inquirer.prompt(question2)
+                if answer2["tbs"]:
+                    return answer2
+            else:
+                break
+    except Exception as e:
+        print(f"An error has occured(func: advanced_filters): {str(e)}")
+
+# advanced_parameter settings
+
+
+def advanced_parameters() -> dict:
+    try:
+        while True:
+            question = [
+                inquirer.Text("image_url", message="Image Url")
+            ]
+            answer = inquirer.prompt(question)
+            if answer["image_url"]:
+                return answer
+            else:
+                break
+    except Exception as e:
+        print(f"An error has occured(func: advanced_parameters): {str(e)}")
+
+
+# serpapi_parameters settings
+
+def serpapi_parameters() -> dict:
+    try:
+        while True:
+            question = [
+                inquirer.List("settings", message="Select setting",
+                              choices=["device", "no_cache", "Go back"])
+            ]
+            answer = inquirer.prompt(question)
+            if answer["settings"] == "device":
+                question1 = [
+                    inquirer.List("device", message="Select device", choices=[
+                                  "desktop", "tablet", "mobile"])
+                ]
+                answer1 = inquirer.prompt(question1)
+                if answer1["device"]:
+                    return answer1
+            elif answer["settings"] == "no_cache":
+                question1a = [
+                    inquirer.List("no_cache", message="Disable Caching", choices=[
+                                  "true", "false"])
+                ]
+                answer1a = inquirer.prompt(question1a)
+                if answer1a["no_cache"] == "true":
+                    return answer1a
+            else:
+                break
+    except Exception as e:
+        print(f"An error has occured(func: serpapi_parameters): {str(e)}")
+
+
+# set custom parameter to default parameter
+
+def set_custom_parameter_to_default_parameter(parameter_dict: dict) -> None:
+    try:
+        while True:
+            question = [
+                inquirer.Confirm(
+                    "set", message="Do you want to set custom settings as default settings ?")
+            ]
+            answer = inquirer.prompt(question)
+            if answer["set"]:
+                custom_to_default(parameter_dict)
+                break
+            else:
+                break
+    except Exception as e:
+        print(f"An error has occured(func: set_custom_parameter_to_default_parameter): {
+              str(e)}")
+
+# custom to default function
+
+
+def custom_to_default(parameter_dict: dict) -> None:
+    try:
+        json_object = json.dumps(parameter_dict, indent=4)
+        with open("./data/default_parameter.json", "w", encoding="utf8") as file:
+            file.write(json_object)
+            print("Set to default settiings")
+    except Exception as e:
+        print(f"An error has occured(func: custom_to_default): {str(e)}")
+
+# reset to default parameter
+
+
+def reset_default_parameters() -> None:
+    try:
+        parameters = {
+            "engine": "google_reverse_image",
+            "image_url": None,
+            "api_key": "secret_api_key"
+        }
+        json_object = json.dumps(parameters, indent=4)
+        with open("./data/default_parameter.json", "w", encoding="utf8") as file:
+            file.write(json_object)
+            print("Set to default settiings")
+    except Exception as e:
+        print(
+            f"An error has occured(func: reset_default_parameters): {str(e)}")
+
+
 if __name__ == "__main__":
     choice = question_timer()
     pprint(choice)
@@ -408,5 +554,5 @@ if __name__ == "__main__":
         parameters = custom_parameters()
     else:
         parameters = default_parameters()
-    print(parameters)
+    pprint(parameters)
     # result_json = serp_search(parameters)

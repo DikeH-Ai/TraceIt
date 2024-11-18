@@ -1,0 +1,5 @@
+{
+    "engine": "google_reverse_image",
+    "image_url": null,
+    "api_key": "secret_api_key"
+}
