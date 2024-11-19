@@ -50,36 +50,39 @@ def upload_to_cloudinary(imagepaths: list) -> dict:
         You will require an account with https://cloudinary.com/
         Set up enviroment variables for config tokens
     """
-    # get env variable
-    dotenv_path = find_dotenv()
+    try:
+        # get env variable
+        dotenv_path = find_dotenv()
 
-    if not imagepaths and load_dotenv:  # quit app if no image is found
-        sys.exit("No image found")
+        if not imagepaths and load_dotenv:  # quit app if no image is found
+            sys.exit("No image found")
 
-    if not load_dotenv(dotenv_path):
-        print("Warning: No config data setup in environment variable")
-    # cloudinary config
-    cloudinary.config(
-        cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
-        api_secret=os.getenv("CLOUDINARY_API_SECRET"),
-        api_key=os.getenv("CLOUDINARY_API_KEY"),
-    )
+        if not load_dotenv(dotenv_path):
+            print("Warning: No config data setup in environment variable")
+        # cloudinary config
+        cloudinary.config(
+            cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+            api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+            api_key=os.getenv("CLOUDINARY_API_KEY"),
+        )
 
-    # image upload
-    images_dict = {}
-    for image in imagepaths:
-        try:
-            response = cloudinary.uploader.upload(image)
-            if "error" in response:
-                raise Exception(f"response_error: {
-                                str(response["error"]["message"])}")
-            images_dict[image] = {
-                "url": response["url"],
-                "public_id": response["public_id"]
-            }
-        except Exception as e:
-            print(f"Failed to upload {image}: {str(e)}")
-    return images_dict
+        # image upload
+        images_dict = {}
+        for image in imagepaths:
+            try:
+                response = cloudinary.uploader.upload(image)
+                if "error" in response:
+                    raise Exception(f"response_error: {
+                                    str(response["error"]["message"])}")
+                images_dict[image] = {
+                    "url": response["url"],
+                    "public_id": response["public_id"]
+                }
+            except Exception as e:
+                print(f"Failed to upload {image}: {str(e)}")
+        return images_dict
+    except Exception as e:
+        print(f"An error has occured (func: upload_to_cloudinary): {str(e)}")
 
 
 def delete_image(image_dict: dict):

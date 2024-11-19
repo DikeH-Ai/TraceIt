@@ -2,7 +2,7 @@ import sys
 import subprocess
 
 try:  # On import error install setuptools package
-    import pkg_resources  # type: ignore
+    import pkg_resources
 except ImportError:
     subprocess.check_call(
         [sys.executable, "-m", "pip", "install", "setuptools"])
@@ -11,8 +11,7 @@ import pkg_resources  # type: ignore
 
 
 def pkg_installer() -> None:
-    """
-        Automatic package installation
+    """Automatic Package installer
     """
     filename = "./requirements.txt"
     lines = None

@@ -8,9 +8,28 @@ import json
 
 
 def set_timer(answer: list, default: bool):
-    """
-        Automatic input after 7 seconds without a user input
-        failsafe for autonomous operation
+    """    Sets a timer to automatically assign a default boolean value to the 
+    provided `answer` list if no user input is received within 7 seconds. 
+    This function is typically used in scenarios where a timed response 
+    is required, and it operates on a separate thread to allow concurrent 
+    execution with other tasks.
+
+    The function waits for 7 seconds, and if the first element of the 
+    `answer` list is still `None` (indicating no user input), it assigns 
+    the `default` value to `answer[0]`. After assigning the default value, 
+    it simulates pressing the Enter key to proceed with the next step.
+
+    Args:
+        answer (list): A list that holds the user's response. The first 
+                       element is updated with the default value if no 
+                       response is received within the timeout period.
+        default (bool): The boolean value to be assigned to `answer[0]` 
+                        in case of a timeout.
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                   caught and a message is printed with details about 
+                   the error.
     """
     try:
         time.sleep(7)
@@ -26,8 +45,19 @@ def set_timer(answer: list, default: bool):
 
 
 def question_timer() -> bool:
-    """
-        Modify user settings-> True or False
+    """Sets up a time sensitive question "Set custom parameters", expecting a
+    True or False response from the user if form of 'y/N'(yes or No). Using a 
+    thread to call the set_timer function to facilitate concurrent execution
+    which is automatically ended if there's a response before the timer runs-
+    down.
+
+    Returns:
+        bool: _description_
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                   caught and a message is printed with details about 
+                   the error.
     """
     try:
         question = [
@@ -53,15 +83,18 @@ def question_timer() -> bool:
 
 
 def custom_parameters() -> dict:
-    """
-        Setup;
-            "Geographic Location":
-            "Localization":,
-            "Pagination":,
-            "Advanced Parameters":,
-            "Advanced Filters":,
-            "SerpApi Parameters":
-        settings
+    """Sets up the desired parameter structure, by calling multiple functions
+    each dictionary value is appended within the parameter dictionary based on
+    each specific settings.
+
+    Handles menu flow for all available settings.
+    Returns:
+        dict: custom parameter based on settings
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
     """
     try:
         # each function dictionary holder
@@ -105,8 +138,16 @@ def custom_parameters() -> dict:
 
 
 def default_parameters() -> dict:
-    """
-        Use the default query parameters
+    """Read default parameter values from default_parameter.json
+    file stored within the data folder
+
+    Returns:
+        dict: default parameter
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
     """
     data = None
     with open("./data/default_parameter.json", "r", encoding="utf8") as file:
@@ -115,12 +156,22 @@ def default_parameters() -> dict:
     return data
 
 
-"""
-    Each custom settings
-"""
-
+# Catalogue of custom settings function
 
 def geo_location() -> dict:
+    """geo_location menu;
+        settings:
+            location
+            uule
+
+    Returns:
+        dict: {location|uule : {value}}
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
+    """
     try:
         while True:
             question = [
@@ -149,6 +200,18 @@ def geo_location() -> dict:
 
 
 def loaction_geo_location() -> dict:
+    """Setup the locations setings using inquire for prompting
+    and parsing it's response.
+    Using rapidfuzz for string matching for a smooth interface.
+
+    Returns:
+        dict: {location: {value}}
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
+    """
     try:
         # get location list
         locations = []
@@ -180,7 +243,18 @@ def loaction_geo_location() -> dict:
 # Function to get the top 10 closest matches using rapidwuzzy
 
 
-def get_top_matches(user_input, location_list, filter=None, top_n=10):
+def get_top_matches(user_input, location_list, filter=None, top_n=10) -> tuple:
+    """Generate top "top_n" most similar string matches
+
+    Args:
+        user_input (_type_): _description_
+        location_list (_type_): _description_
+        filter (_type_, optional): _description_. Defaults to None.
+        top_n (int, optional): _description_. Defaults to 10.
+
+    Returns:
+        tuple: matches
+    """
     try:
         if filter:
             matches = process.extract(
@@ -194,6 +268,18 @@ def get_top_matches(user_input, location_list, filter=None, top_n=10):
 
 
 def localization() -> dict:
+    """localization menu setup for localization prameters
+
+    Returns:
+        dict: "google_domain": option["domain"],
+                "gl": dict["country_code"],
+                "hl": dict["language_code"]
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
+    """
     try:
         while True:
             # stage 2 menu
@@ -226,6 +312,19 @@ def localization() -> dict:
 
 
 def localization_domain() -> dict:
+    """Domain setup handler function, automatically assign parameters to,
+    country, domain and language.
+
+    Returns:
+        dict: "google_domain": option["domain"],
+                "gl": dict["country_code"],
+                "hl": dict["language_code"]
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
+    """
     try:
         # read domain list from google_domain.txt
         domains = []
@@ -266,6 +365,22 @@ def localization_domain() -> dict:
 
 
 def set_parameter(option: dict) -> dict:
+    """Based on selected domain, automatically assign parameters to,
+    country, domain and language.
+
+    Args:
+        option (dict): _description_
+
+    Returns:
+        dict:  "google_domain": option["domain"],
+                "gl": dict["country_code"],
+                "hl": dict["language_code"]
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
+    """
     try:
         data = None
         with open("./data/google-domains.json", "r", encoding="utf8") as file:
@@ -285,6 +400,17 @@ def set_parameter(option: dict) -> dict:
 
 
 def localization_country() -> dict:
+    """Gets the list of countries from google_country txt file,
+    assign country parameter
+
+    Returns:
+        dict: "gl": dict["country_code"]
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
+    """
     try:
         countries = []  # get country list from google_country.txt
         with open("./data/google_country.txt", "r",  encoding="utf-8") as file:
@@ -325,6 +451,19 @@ def localization_country() -> dict:
 
 
 def set_country_code(option: dict) -> dict:
+    """Sets counry parameter, full country name to abbreviation
+
+    Args:
+        option (dict): full country name
+
+    Returns:
+        dict: "gl": dict["country_code"]
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
+    """
     try:
         data = None
         with open("./data/google-domains.json", "r", encoding="utf8") as file:
@@ -343,6 +482,17 @@ def set_country_code(option: dict) -> dict:
 
 
 def localization_language() -> dict:
+    """Read list of available languages from google_language txt
+    and pass to user for their prefered choice.
+
+    Returns:
+        dict: {language: {value}}
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
+    """
     try:
         # get languages list from google_languages.txt
         languages = []
@@ -387,6 +537,19 @@ def localization_language() -> dict:
 
 
 def set_language_parameter(option: dict) -> dict:
+    """Set language abbreviation name based on full name.
+
+    Args:
+        option (dict): Based on full language name
+
+    Returns:
+        dict: {"hl": dict["language_code"]}
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
+    """
     try:
         data = None
         with open("./data/google-languages.json", "r", encoding="utf8") as file:
@@ -405,13 +568,40 @@ def set_language_parameter(option: dict) -> dict:
 # pagination menu function
 
 def pagination() -> dict:
+    """Setup pagination parameter
+
+    Returns:
+        dict: {pagination: {value}}
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.    """
     try:
-        question = [
-            inquirer.Text("start", message="start")
-        ]
-        answer = inquirer.prompt(question)
-        if answer["pagination"]:
-            return answer
+        while True:
+            question1 = [
+                inquirer.List("setting", message="Select settings", choices=[
+                              "Result Offset", "Number of Results", "Go back"])
+            ]
+            answer1 = inquirer.prompt(question1)
+
+            if answer1["setting"] == "Result Offset":
+                question = [
+                    inquirer.Text("start", message="start")
+                ]
+                answer = inquirer.prompt(question)
+                if answer["start"]:
+                    return answer
+            elif answer1["setting"] == "Number of Results":
+                question1a = [
+                    inquirer.Text("num", message="num")
+                ]
+                answer1a = inquirer.prompt(question1a)
+                if answer1a["num"]:
+                    return answer1a
+            else:
+                break
+
     except Exception as e:
         print(f"An error has occured(func: pagination): {str(e)}")
 
@@ -419,6 +609,16 @@ def pagination() -> dict:
 # advanced filter menu function
 
 def advanced_filters() -> dict:
+    """Setup advanced filter
+
+    Returns:
+        dict: {Adult Content Filtering|Advanced Search Parameters: {value}}
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
+    """
     try:
         while True:
             question = [
@@ -451,6 +651,16 @@ def advanced_filters() -> dict:
 
 
 def advanced_parameters() -> dict:
+    """Setup advance parameter setup
+
+    Returns:
+        dict: {image_url: {value}}
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
+    """
     try:
         while True:
             question = [
@@ -468,6 +678,16 @@ def advanced_parameters() -> dict:
 # serpapi_parameters settings
 
 def serpapi_parameters() -> dict:
+    """Setup serpapi parameter setting
+
+    Returns:
+        dict: {device|no_cache: {value}}
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
+    """
     try:
         while True:
             question = [
@@ -500,6 +720,16 @@ def serpapi_parameters() -> dict:
 # set custom parameter to default parameter
 
 def set_custom_parameter_to_default_parameter(parameter_dict: dict) -> None:
+    """A function hanlder for the custom_to_default function
+
+    Args:
+        parameter_dict (dict): custom parameter to be set to default 
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
+    """
     try:
         while True:
             question = [
@@ -520,6 +750,16 @@ def set_custom_parameter_to_default_parameter(parameter_dict: dict) -> None:
 
 
 def custom_to_default(parameter_dict: dict) -> None:
+    """Sets custom parameter to default parameter
+
+    Args:
+        parameter_dict (dict): custom parameter to be set to default 
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
+    """
     try:
         json_object = json.dumps(parameter_dict, indent=4)
         with open("./data/default_parameter.json", "w", encoding="utf8") as file:
@@ -532,6 +772,15 @@ def custom_to_default(parameter_dict: dict) -> None:
 
 
 def reset_default_parameters() -> None:
+    """reset default parameters; 
+    to be used when custom parameter has been set to default
+
+
+    Raises:
+        Exception: If an error occurs during execution, the exception is 
+                    caught and a message is printed with details about 
+                    the error.
+    """
     try:
         parameters = {
             "engine": "google_reverse_image",
