@@ -5,6 +5,9 @@ import threading
 from pynput.keyboard import Controller, Key
 from rapidfuzz import process, fuzz
 import json
+from dotenv import find_dotenv, load_dotenv
+from os import getenv
+from serpapi import GoogleSearch  # type: ignore
 
 
 def set_timer(answer: list, default: bool):
@@ -44,7 +47,7 @@ def set_timer(answer: list, default: bool):
         print(f"An error has occured(func: set_timer): {str(e)}")
 
 
-def question_timer() -> bool:
+def question_timer(message: str = "Set custom parameters") -> bool:
     """Sets up a time sensitive question "Set custom parameters", expecting a
     True or False response from the user if form of 'y/N'(yes or No). Using a 
     thread to call the set_timer function to facilitate concurrent execution
@@ -61,7 +64,7 @@ def question_timer() -> bool:
     """
     try:
         question = [
-            inquirer.Confirm("setup", message="Set custom parameters")
+            inquirer.Confirm("setup", message=message)
         ]
         answers = [None]
         # using another process to call the timer
@@ -112,7 +115,6 @@ def custom_parameters() -> dict:
         parameters = {
             "engine": "google_reverse_image",
             "image_url": None,
-            "api_key": "secret_api_key"
         }
         while True:
             question = [
@@ -692,7 +694,7 @@ def serpapi_parameters() -> dict:
         while True:
             question = [
                 inquirer.List("settings", message="Select setting",
-                              choices=["device", "no_cache", "Go back"])
+                              choices=["device", "no_cache", "engine", "async", "zero_trace", "Go back"])
             ]
             answer = inquirer.prompt(question)
             if answer["settings"] == "device":
@@ -711,6 +713,30 @@ def serpapi_parameters() -> dict:
                 answer1a = inquirer.prompt(question1a)
                 if answer1a["no_cache"] == "true":
                     return answer1a
+            elif answer["settings"] == "engine":
+                question1b = [
+                    inquirer.Text("engine", message="Input search engine")
+                ]
+                answer1b = inquirer.prompt(question1b)
+                if answer1b["engine"]:
+                    return answer1b
+            elif answer["settings"] == "zero_trace":
+                question1c = [
+                    inquirer.Confirm(
+                        "zero_trace", message="Info: Enterprise Only. Do you want to turn ON zero_trace ?")
+                ]
+                answer1c = inquirer.prompt(question1c)
+
+                if answer1c["zero_trace"]:
+                    return answer1c
+            elif answer["settings"] == "async":
+                question1d = [
+                    inquirer.Confirm("async", message="Turn on async")
+                ]
+                answer1d = inquirer.prompt(question1d)
+
+                if answer1d["async"]:
+                    return answer1d
             else:
                 break
     except Exception as e:
@@ -785,7 +811,6 @@ def reset_default_parameters() -> None:
         parameters = {
             "engine": "google_reverse_image",
             "image_url": None,
-            "api_key": "secret_api_key"
         }
         json_object = json.dumps(parameters, indent=4)
         with open("./data/default_parameter.json", "w", encoding="utf8") as file:
@@ -794,6 +819,31 @@ def reset_default_parameters() -> None:
     except Exception as e:
         print(
             f"An error has occured(func: reset_default_parameters): {str(e)}")
+
+
+# do something with the image name
+def serp_search(params: dict, image_path: str, image_url: str) -> dict:
+    try:
+        # get api from .env
+        env_path = find_dotenv()
+        # load env to memory
+        if not load_dotenv(env_path):
+            print("Warning: No env config found")
+        # update api & image url
+        api = {
+            "api_key": getenv("SERPAPI_KEY"),
+            "image_url": image_url,
+        }
+        params.update(api)
+
+        search = GoogleSearch(params)
+        results = search.get_dict()
+        if results:
+            return {image_path: results}
+
+    except Exception as e:
+        print(
+            f"An error has occured(func: serp_search): {str(e)}")
 
 
 if __name__ == "__main__":

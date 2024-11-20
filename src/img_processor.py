@@ -11,11 +11,17 @@ def main():
     image_dict = upload_to_cloudinary(imagepaths=imagepaths)
     print(image_dict)
     delete_image(image_dict)
+    pass
 
 
 def is_image(filepath: str) -> bool:  # get file format
-    """
-        Checks if file is an image
+    """checks if file is an image
+
+    Args:
+        filepath (str): filepath
+
+    Returns:
+        bool: True|False
     """
     try:
         file_kind = filetype.guess(filepath)
@@ -27,8 +33,11 @@ def is_image(filepath: str) -> bool:  # get file format
 
 
 def image_processor() -> list:
-    """
-        return imagepath list
+    """Return "imagepath" list, path to the local
+    directory
+
+    Returns:
+        list: list[filepath, filepath1, ...]
     """
     try:
         # Access image folder
@@ -54,11 +63,12 @@ def upload_to_cloudinary(imagepaths: list) -> dict:
         # get env variable
         dotenv_path = find_dotenv()
 
-        if not imagepaths and load_dotenv:  # quit app if no image is found
+        if not imagepaths:  # quit app if no image is found
             sys.exit("No image found")
 
         if not load_dotenv(dotenv_path):
-            print("Warning: No config data setup in environment variable")
+            print("Warning: No config data setup in environment variable file (.env)")
+
         # cloudinary config
         cloudinary.config(
             cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
