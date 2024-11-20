@@ -115,6 +115,7 @@ def custom_parameters() -> dict:
         parameters = {
             "engine": "google_reverse_image",
             "image_url": None,
+            "no-cache": True,
         }
         while True:
             question = [
@@ -708,7 +709,7 @@ def serpapi_parameters() -> dict:
             elif answer["settings"] == "no_cache":
                 question1a = [
                     inquirer.List("no_cache", message="Disable Caching", choices=[
-                                  "true", "false"])
+                                  "true", "false"], default="true")
                 ]
                 answer1a = inquirer.prompt(question1a)
                 if answer1a["no_cache"] == "true":
@@ -839,7 +840,10 @@ def serp_search(params: dict, image_path: str, image_url: str) -> dict:
         search = GoogleSearch(params)
         results = search.get_dict()
         if results:
-            return {image_path: results}
+            return {image_path: {"search_metadata": results["search_metadata"],
+                                 "image_results": results["image_results"]
+                                 }
+                    }
 
     except Exception as e:
         print(

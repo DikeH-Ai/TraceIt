@@ -42,6 +42,9 @@ def main():
 
         if delete_cloud_img:
             img_processor.delete_image(image_dict=image_dict)
+
+        # remember function
+
     except Exception as e:
         print(
             f"An unexpected error has occured (func: main(setup.py)): {str(e)}")
