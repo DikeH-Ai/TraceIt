@@ -7,7 +7,7 @@ from rapidfuzz import process, fuzz
 import json
 from dotenv import find_dotenv, load_dotenv
 from os import getenv
-from serpapi import GoogleSearch  # type: ignore
+from serpapi import GoogleSearch
 
 
 def set_timer(answer: list, default: bool):
@@ -829,7 +829,9 @@ def serp_search(params: dict, image_path: str, image_url: str) -> dict:
         env_path = find_dotenv()
         # load env to memory
         if not load_dotenv(env_path):
-            print("Warning: No env config found")
+            raise EnvironmentError(
+                "No .env file found or failed to load environment variables.")
+
         # update api & image url
         api = {
             "api_key": getenv("SERPAPI_KEY"),
@@ -840,14 +842,21 @@ def serp_search(params: dict, image_path: str, image_url: str) -> dict:
         search = GoogleSearch(params)
         results = search.get_dict()
         if results:
-            return {image_path: {"search_metadata": results["search_metadata"],
-                                 "image_results": results["image_results"]
+            search_metadata = results.get("search_metadata", {})
+            image_results = results.get("image_results", [])
+            image_results_link = [links.get("link", "")
+                                  for links in image_results]
+            return {image_path: {"search_metadata_id": search_metadata.get("id", ""),
+                                 "image_results": image_results_link
                                  }
                     }
-
+        else:
+            print(f"No search results found for {image_path}")
+            return {}
     except Exception as e:
         print(
             f"An error has occured(func: serp_search): {str(e)}")
+        return {}
 
 
 if __name__ == "__main__":

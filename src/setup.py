@@ -1,6 +1,6 @@
 import img_processor
 import serp_fuction
-import pprint
+from pprint import pprint
 import json
 
 
@@ -11,7 +11,7 @@ def main():
         # upload processed images to cloud
         image_dict = img_processor.upload_to_cloudinary(
             imagepaths=imagepath)  # image cloud url in dict
-
+        pprint(image_dict)
         # request for user response
         choice = serp_fuction.question_timer()
         pprint(choice)
@@ -22,15 +22,17 @@ def main():
         else:
             parameters = serp_fuction.default_parameters()
         pprint(parameters)
-        result_json = []
-        for img in image_dict:
-            # append function call dict to list
-            result_json.append(serp_fuction.serp_search(
+        result_dict = []
+
+        for filepath, image_info in image_dict.items():
+            # append function call dictionary to list
+            url = image_info["url"]
+            result_dict.append(serp_fuction.serp_search(
                 # pass data to serp_search to get reverse images search data
-                params=parameters, image_path=img.key(), image_url=img["url"]))
+                params=parameters, image_path=filepath, image_url=url))
 
         # save result to json file
-        result_json = json.dumps(result_json)
+        result_json = json.dumps(result_dict, indent=4)
 
         with open("./results/reverse_image_search_results.json", "w", encoding="utf-8") as file:
             file.write(result_json)
@@ -42,8 +44,6 @@ def main():
 
         if delete_cloud_img:
             img_processor.delete_image(image_dict=image_dict)
-
-        # remember function
 
     except Exception as e:
         print(

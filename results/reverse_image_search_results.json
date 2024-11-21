@@ -1,0 +1,29 @@
+[
+    {
+        "./data/images\\pexels-photo-4238994.webp": {
+            "search_metadata_id": "673fb2a917a2e27237eda9ae",
+            "image_results": [
+                "https://www.memorial.com.tr/saglik-rehberi/adet-sokturucu-nedir-ne-ise-yarar",
+                "https://www.acibadem.com.tr/hayat/adet-sokturucu-nedir/",
+                "https://www.amazon.ca/Genuine-Leather-Travel-Toiletry-Bag/dp/B01FVPOWD4",
+                "https://www.amazon.ca/Ceramics-Ceramic-Bathtub-Decorative-Bathroom/dp/B0CM6936S5",
+                "https://www.thisisamombod.com/shop",
+                "https://www.amazon.ca/MILISTEN-Reusable-Sanitary-Menstrual-Physiological/dp/B08JGWR4QG",
+                "https://ndguelph.ca/blog/perimenopause"
+            ]
+        }
+    },
+    {
+        "./data/images\\pexels-photo-7004697.jpeg": {
+            "search_metadata_id": "673fb2ae4d52b84ecef665de",
+            "image_results": [
+                "https://www.kingandmcgaw.com/prints/graphic-illustration",
+                "https://cgitems.co.uk/members-gallery/painting555/",
+                "https://classbento.com/fluid-art-class-san-francisco?srsltid=AfmBOoqZGu9IUEQZa74-ahKHewCuPlDB35xjbo0aQsR_6iaQW7gJZeMi",
+                "https://cgitems.co.uk/image-type/painting/",
+                "https://www.linkedin.com/posts/tamsinkate_you-are-the-author-of-your-story-if-you-activity-7181073046345035777-2ZYd",
+                "https://zreddix.com/EveryART"
+            ]
+        }
+    }
+]
