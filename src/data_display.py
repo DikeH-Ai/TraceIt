@@ -4,6 +4,11 @@ from pprint import pprint
 
 
 def display(imagepathList: list):
+    """Display data in CLI
+
+    Args:
+        imagepathList (list): image path list 
+    """
     try:
         while True:
             imagepathList.append("Exit")

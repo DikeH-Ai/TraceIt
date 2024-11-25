@@ -8,6 +8,7 @@ import json
 from dotenv import find_dotenv, load_dotenv
 from os import getenv
 from serpapi import GoogleSearch
+import logging
 
 
 def set_timer(answer: list, default: bool):
@@ -37,14 +38,14 @@ def set_timer(answer: list, default: bool):
     try:
         time.sleep(7)
         if answer[0] == None:
-            print(f"\nTimeout! Using default parameter")
+            logging.warning(f"\nTimeout! Using default parameter")
             answer[0] = default
             # press Enter key
             keyboard_controller = Controller()
             keyboard_controller.press(Key.enter)
             keyboard_controller.release(Key.enter)
     except Exception as e:
-        print(f"An error has occured(func: set_timer): {str(e)}")
+        logging.warning(f"An error has occured(func: set_timer): {str(e)}")
 
 
 def question_timer(message: str = "Set custom parameters") -> bool:
@@ -82,7 +83,7 @@ def question_timer(message: str = "Set custom parameters") -> bool:
 
         return answers[0]
     except Exception as e:
-        print(f"An error has occured(func: question_timer): {str(e)}")
+        logging.error(f"An error has occured(func: question_timer): {str(e)}")
 
 
 def custom_parameters() -> dict:
@@ -131,13 +132,13 @@ def custom_parameters() -> dict:
                 print("Exiting Custom settings")
                 break
             else:
-                pprint(answers)
                 data = func_dict[answers["settings"]]()
                 if data:
                     parameters.update(data)
         return parameters
     except Exception as e:
-        print(f"An error has occured(func: custom_parameters): {str(e)}")
+        logging.error(
+            f"An error has occured(func: custom_parameters): {str(e)}")
 
 
 def default_parameters() -> dict:
@@ -155,7 +156,6 @@ def default_parameters() -> dict:
     data = None
     with open("./data/default_parameter.json", "r", encoding="utf8") as file:
         data = json.load(file)
-    print("In default")
     return data
 
 
@@ -196,7 +196,7 @@ def geo_location() -> dict:
                 uule_dict = inquirer.prompt(questions)
                 return uule_dict
     except Exception as e:
-        print(f"An error has occured(func: geo_location): {str(e)}")
+        logging.warning(f"An error has occured(func: geo_location): {str(e)}")
         return
 
 # location function in geo_location menu
@@ -242,7 +242,8 @@ def loaction_geo_location() -> dict:
         if selected_loc["location"]:
             return selected_loc
     except Exception as e:
-        print(f"An error has occured(func: loaction_geo_location): {str(e)}")
+        logging.warning(
+            f"An error has occured(func: loaction_geo_location): {str(e)}")
 # Function to get the top 10 closest matches using rapidwuzzy
 
 
@@ -267,7 +268,8 @@ def get_top_matches(user_input, location_list, filter=None, top_n=10) -> tuple:
             matches = process.extract(user_input, location_list, limit=top_n)
             return matches
     except Exception as e:
-        print(f"An error has occured(func: get_top_matches): {str(e)}")
+        logging.warning(
+            f"An error has occured(func: get_top_matches): {str(e)}")
 
 
 def localization() -> dict:
@@ -308,7 +310,7 @@ def localization() -> dict:
             else:
                 break
     except Exception as e:
-        print(f"An error has occured(func: localization): {str(e)}")
+        logging.warning(f"An error has occured(func: localization): {str(e)}")
         return
 
 # domain function in the localization menu
@@ -363,7 +365,8 @@ def localization_domain() -> dict:
         if answer1a["domain"]:
             return set_parameter(answer1a)
     except Exception as e:
-        print(f"An error has occured(func: localization_domain): {str(e)}")
+        logging.warning(
+            f"An error has occured(func: localization_domain): {str(e)}")
 # auto set parameters for associated values
 
 
@@ -398,7 +401,7 @@ def set_parameter(option: dict) -> dict:
                 print(para)
                 return para
     except Exception as e:
-        print(f"An error has occured(func: set_parameter): {str(e)}")
+        logging.warning(f"An error has occured(func: set_parameter): {str(e)}")
 # set country parameter
 
 
@@ -448,7 +451,8 @@ def localization_country() -> dict:
         if answer1a:
             return set_country_code(answer1a)
     except Exception as e:
-        print(f"An error has occured(func: localization_country): {str(e)}")
+        logging.warning(
+            f"An error has occured(func: localization_country): {str(e)}")
 
 # set country code for localization country fuction
 
@@ -479,7 +483,7 @@ def set_country_code(option: dict) -> dict:
                 print(para)
                 return para
     except Exception as e:
-        print(f"An error has occured(func: country_code): {str(e)}")
+        logging.warning(f"An error has occured(func: country_code): {str(e)}")
 
 # set lanaguage parameter
 
@@ -534,7 +538,8 @@ def localization_language() -> dict:
             return set_language_parameter(answer1a)
 
     except Exception as e:
-        print(f"An error has occured(func: localization_language): {str(e)}")
+        logging.warning(
+            f"An error has occured(func: localization_language): {str(e)}")
 
 # set language code for localization_language function
 
@@ -565,7 +570,8 @@ def set_language_parameter(option: dict) -> dict:
                 print(para)
                 return para
     except Exception as e:
-        print(f"An error has occured(func: set_language_parameters): {str(e)}")
+        logging.warning(
+            f"An error has occured(func: set_language_parameters): {str(e)}")
 
 
 # pagination menu function
@@ -606,7 +612,7 @@ def pagination() -> dict:
                 break
 
     except Exception as e:
-        print(f"An error has occured(func: pagination): {str(e)}")
+        logging.warning(f"An error has occured(func: pagination): {str(e)}")
 
 
 # advanced filter menu function
@@ -648,7 +654,8 @@ def advanced_filters() -> dict:
             else:
                 break
     except Exception as e:
-        print(f"An error has occured(func: advanced_filters): {str(e)}")
+        logging.warning(
+            f"An error has occured(func: advanced_filters): {str(e)}")
 
 # advanced_parameter settings
 
@@ -675,7 +682,8 @@ def advanced_parameters() -> dict:
             else:
                 break
     except Exception as e:
-        print(f"An error has occured(func: advanced_parameters): {str(e)}")
+        logging.warning(
+            f"An error has occured(func: advanced_parameters): {str(e)}")
 
 
 # serpapi_parameters settings
@@ -741,7 +749,8 @@ def serpapi_parameters() -> dict:
             else:
                 break
     except Exception as e:
-        print(f"An error has occured(func: serpapi_parameters): {str(e)}")
+        logging.warning(
+            f"An error has occured(func: serpapi_parameters): {str(e)}")
 
 
 # set custom parameter to default parameter
@@ -770,8 +779,8 @@ def set_custom_parameter_to_default_parameter(parameter_dict: dict) -> None:
             else:
                 break
     except Exception as e:
-        print(f"An error has occured(func: set_custom_parameter_to_default_parameter): {
-              str(e)}")
+        logging.warning(f"An error has occured(func: set_custom_parameter_to_default_parameter): {
+            str(e)}")
 
 # custom to default function
 
@@ -793,7 +802,8 @@ def custom_to_default(parameter_dict: dict) -> None:
             file.write(json_object)
             print("Set to default settiings")
     except Exception as e:
-        print(f"An error has occured(func: custom_to_default): {str(e)}")
+        logging.warning(
+            f"An error has occured(func: custom_to_default): {str(e)}")
 
 # reset to default parameter
 
@@ -851,11 +861,10 @@ def serp_search(params: dict, image_path: str, image_url: str) -> dict:
                                  }
                     }
         else:
-            print(f"No search results found for {image_path}")
+            logging.warning(f"No search results found for {image_path}")
             return {}
     except Exception as e:
-        print(
-            f"An error has occured(func: serp_search): {str(e)}")
+        logging.warning(f"An error has occured(func: serp_search): {str(e)}")
         return {}
 
 

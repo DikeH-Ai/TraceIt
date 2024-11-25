@@ -3,28 +3,36 @@ import serp_fuction
 from pprint import pprint
 import json
 from data_display import display
+import logging
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename='program.log',
+                    encoding='utf-8', level=logging.DEBUG)
 
 
 def main():
     try:
         # process the images in /data/image folder
+        logging.info(">>>>Collecting images")
         imagepath = img_processor.image_processor()
         # upload processed images to cloud
+        logging.info(">>>>Uploading images")
         image_dict = img_processor.upload_to_cloudinary(
             imagepaths=imagepath)  # image cloud url in dict
-        pprint(image_dict)
-        # request for user response
+
+        # request for user response. Custom | Default parameters
         choice = serp_fuction.question_timer()
-        pprint(choice)
+        logging.info(f">>>>Selected {choice}")
 
         # function call based on choice
         if choice:
             parameters = serp_fuction.custom_parameters()
         else:
             parameters = serp_fuction.default_parameters()
-        pprint(parameters)
+        logging.info(f">>>>Parameters set")
+
         result_dict = []
 
+        # get data from data pool
         for filepath, image_info in image_dict.items():
             # append function call dictionary to list
             url = image_info["url"]

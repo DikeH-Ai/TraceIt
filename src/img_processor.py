@@ -1,9 +1,10 @@
 import os
-import filetype  # type: ignore
+import filetype
 import sys
-import cloudinary  # type: ignore
-import cloudinary.uploader  # type: ignore
-from dotenv import find_dotenv, load_dotenv  # type: ignore
+import cloudinary
+import cloudinary.uploader
+from dotenv import find_dotenv, load_dotenv
+import logging
 
 
 def main():
@@ -24,16 +25,18 @@ def is_image(filepath: str) -> bool:  # get file format
         bool: True|False
     """
     try:
+        # using the filetype module
         file_kind = filetype.guess(filepath)
+        # returns true if file is an image
         if file_kind is not None and file_kind.mime.startswith('image/'):
             return True
         return False
-    except Exception:
+    except Exception:  # returns false on error
         return False
 
 
 def image_processor() -> list:
-    """Return "imagepath" list, path to the local
+    """Return "image path" list, path to the image in local
     directory
 
     Returns:
@@ -42,13 +45,14 @@ def image_processor() -> list:
     try:
         # Access image folder
         image_path = "./data/images"
-        images = os.listdir(image_path)  # get images
-        # validate images
-        images = [os.path.join(image_path, image) for image in images if is_image(
+        files = os.listdir(image_path)  # get files
+        # validate images and append to path list
+        images = [os.path.join(image_path, image) for image in files if is_image(
             os.path.join(image_path, image))]
         return images
     except Exception as e:
-        print(f"Image processing failed {str(e)}", file=sys.stderr)
+        logging.warning(
+            f"Image processing failed(func: image_processor) {str(e)}")
         return []
 
 
@@ -66,8 +70,9 @@ def upload_to_cloudinary(imagepaths: list) -> dict:
         if not imagepaths:  # quit app if no image is found
             sys.exit("No image found")
 
-        if not load_dotenv(dotenv_path):
-            print("Warning: No config data setup in environment variable file (.env)")
+        if not load_dotenv(dotenv_path):  # if env not found
+            logging.warning(
+                "Warning: No config data setup in environment variable file (.env)")
 
         # cloudinary config
         cloudinary.config(
@@ -76,7 +81,7 @@ def upload_to_cloudinary(imagepaths: list) -> dict:
             api_key=os.getenv("CLOUDINARY_API_KEY"),
         )
 
-        # image upload
+        # image upload logic
         images_dict = {}
         for image in imagepaths:
             try:
@@ -89,10 +94,11 @@ def upload_to_cloudinary(imagepaths: list) -> dict:
                     "public_id": response["public_id"]
                 }
             except Exception as e:
-                print(f"Failed to upload {image}: {str(e)}")
+                logging.warning(f"Failed to upload {image}: {str(e)}")
         return images_dict
     except Exception as e:
-        print(f"An error has occured (func: upload_to_cloudinary): {str(e)}")
+        logging.error(
+            f"An error has occured (func: upload_to_cloudinary): {str(e)}")
 
 
 def delete_image(image_dict: dict):
@@ -107,14 +113,15 @@ def delete_image(image_dict: dict):
 
             # Check if the response contains a success status
             if response.get("result") == "ok":
-                print(f"Image with public_id {
+                logging.info(f"Image with public_id {
                     public_id} deleted successfully.")
             else:
-                print(f"Failed to delete image with public_id {
+                logging.info(f"Failed to delete image with public_id {
                     public_id}: {response}")
     except Exception as e:
         # Catch and print any exceptions that occur during deletion
-        print(f"Error deleting image with public_id {public_id}: {str(e)}")
+        logging.warning(f"Error deleting image with public_id {
+                        public_id}: {str(e)}")
 
 
 if __name__ == "__main__":
