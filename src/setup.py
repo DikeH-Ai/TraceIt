@@ -2,6 +2,7 @@ import img_processor
 import serp_fuction
 from pprint import pprint
 import json
+from data_display import display
 
 
 def main():
@@ -36,7 +37,12 @@ def main():
 
         with open("./results/reverse_image_search_results.json", "w", encoding="utf-8") as file:
             file.write(result_json)
-
+        # get image path list
+        image_path_list = []
+        for entry in result_dict:
+            for imagepath, values in entry.items():
+                image_path_list.append(imagepath)
+        display(imagepathList=image_path_list)
         # request user response for 7s
         ques = "Would you like to delete images from cloud ?"
         delete_cloud_img = serp_fuction.question_timer(message=ques)
