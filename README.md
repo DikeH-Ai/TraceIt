@@ -5,6 +5,9 @@ TraceIt is an automated tool that performs reverse image searches using the Goog
 - Organized Results: Displays search results with URLs.
 - Track New Matches: Differentiates new matches from previous ones.
 
+## Demo
+https://github.com/user-attachments/assets/07719eeb-6702-40e6-a988-6906d369cd9c
+
 ## Table of Contents
 
 - [Project Overview](#project-overview)
@@ -27,7 +30,6 @@ This project facilitates reverse image search and image comparison. It performs 
 3. Compares uploaded images using perceptual hashing to detect similarity.
 4. Displays search results and compares them against historical data.
 
-## Demo
 
 
 ## Requirements

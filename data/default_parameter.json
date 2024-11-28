@@ -1,4 +1,5 @@
 {
     "engine": "google_reverse_image",
-    "image_url": null
+    "image_url": null,
+    "no-cache": true
 }

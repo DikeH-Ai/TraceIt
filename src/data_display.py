@@ -42,5 +42,4 @@ def display(imagepathList: list):
 
 
 if __name__ == "__main__":
-    display(["C:\\Users\\StarGate\\Documents\\TraceIt\\data\\images\\2CK09C2-1.jpg", "C:\\Users\\StarGate\\Documents\\TraceIt\\data\\images\\abuja-citygate_thisday.jpg",
-            "C:\\Users\\StarGate\\Documents\\TraceIt\\data\\images\\Shanghai-Tower-Gensler-San-Francisco-world-Oriental-2015.webp"])
+    display(["C:\\Users\\StarGate\\Documents\\TraceIt\\data\\images\\Venom_FA.webp"])

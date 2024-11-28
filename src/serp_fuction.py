@@ -9,6 +9,7 @@ from dotenv import find_dotenv, load_dotenv
 from os import getenv
 from serpapi import GoogleSearch
 import logging
+import sys
 
 
 def set_timer(answer: list, default: bool):
@@ -36,9 +37,10 @@ def set_timer(answer: list, default: bool):
                    the error.
     """
     try:
-        time.sleep(7)
+        time.sleep(3)
         if answer[0] == None:
             logging.warning(f"\nTimeout! Using default parameter")
+            print(f">>>>Timeout! Using default parameter")
             answer[0] = default
             # press Enter key
             keyboard_controller = Controller()
@@ -48,7 +50,7 @@ def set_timer(answer: list, default: bool):
         logging.warning(f"An error has occured(func: set_timer): {str(e)}")
 
 
-def question_timer(message: str = "Set custom parameters") -> bool:
+def question_timer(message: str = "Set custom parameters (3 secs)") -> bool:
     """Sets up a time sensitive question "Set custom parameters", expecting a
     True or False response from the user if form of 'y/N'(yes or No). Using a 
     thread to call the set_timer function to facilitate concurrent execution
@@ -123,14 +125,17 @@ def custom_parameters() -> dict:
                 inquirer.List("settings",
                               message="Select Settings",
                               choices=["Geographic Location", "Localization", "Pagination", "Advanced Parameters", "Advanced Filters", "SerpApi Parameters",
-                                       "Reset Default parameters", "Exit"]),
+                                       "Reset Default parameters", "Done", "Exit (Quit program)"]),
             ]
             answers = inquirer.prompt(question)
 
-            if answers["settings"] == "Exit":
+            if answers["settings"] == "Done":
                 set_custom_parameter_to_default_parameter(parameters)
-                print("Exiting Custom settings")
+                print(">>>>Exiting Custom settings")
+                print(">>>>Continuing process")
                 break
+            elif answers["settings"] == "Exit (Quit program)":
+                sys.exit()
             else:
                 data = func_dict[answers["settings"]]()
                 if data:

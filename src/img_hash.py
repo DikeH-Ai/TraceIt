@@ -25,7 +25,6 @@ def generate_phash(image_path: str):
         image = Image.open(image_path)
         return imagehash.phash(image)
     except Exception as e:
-        logging.error(f"Error generating phash: {e}")
         return None
 
 
@@ -77,8 +76,13 @@ def archive_processor(image_path) -> dict:
                     try:
                         if len(history_json) > 0:
                             for entry in history_json:
-                                history_image_hash = generate_phash(
-                                    entry["image"])
+                                try:
+                                    history_image_hash = generate_phash(
+                                        entry["image"])
+                                except Exception:
+                                    continue
+                                if history_image_hash is None:
+                                    continue
                                 if (history_image_hash - hash_image_path) in range(10):
                                     found = 1
                                     # Fetch archived data
@@ -154,4 +158,4 @@ def append_archive_data(image_path: str, id: str) -> dict:
 
 if __name__ == "__main__":
     archive_processor(
-        "C:\\Users\\StarGate\\Documents\\TraceIt\\data\\images\\Shanghai-Tower-Gensler-San-Francisco-world-Oriental-2015.webp")
+        "C:\\Users\\StarGate\\Documents\\TraceIt\\data\\images\\Venom_FA.webp")
