@@ -10,8 +10,8 @@ def display(imagepathList: list):
         imagepathList (list): image path list 
     """
     try:
+        imagepathList.append("Exit")
         while True:
-            imagepathList.append("Exit")
             question = [
                 inquirer.List("imagepath", message="Select an image",
                               choices=imagepathList)
@@ -42,4 +42,5 @@ def display(imagepathList: list):
 
 
 if __name__ == "__main__":
-    display()
+    display(["C:\\Users\\StarGate\\Documents\\TraceIt\\data\\images\\2CK09C2-1.jpg", "C:\\Users\\StarGate\\Documents\\TraceIt\\data\\images\\abuja-citygate_thisday.jpg",
+            "C:\\Users\\StarGate\\Documents\\TraceIt\\data\\images\\Shanghai-Tower-Gensler-San-Francisco-world-Oriental-2015.webp"])

@@ -1,10 +1,14 @@
 [
     {
-        "image": "./data/images\\pexels-photo-4238994.webp",
-        "id": "673fb2a917a2e27237eda9ae"
+        "image": "C:\\Users\\StarGate\\Documents\\TraceIt\\data\\images\\2CK09C2-1.jpg",
+        "id": "67483c66b4e8d6d825eea1d9"
     },
     {
-        "image": "./data/images\\pexels-photo-7004697.jpeg",
-        "id": "673fb2ae4d52b84ecef665de"
+        "image": "C:\\Users\\StarGate\\Documents\\TraceIt\\data\\images\\abuja-citygate_thisday.jpg",
+        "id": "67483c6a0c08f20cfc5338fd"
+    },
+    {
+        "image": "C:\\Users\\StarGate\\Documents\\TraceIt\\data\\images\\Shanghai-Tower-Gensler-San-Francisco-world-Oriental-2015.webp",
+        "id": "67483c86acf7f82e6d7ba415"
     }
 ]

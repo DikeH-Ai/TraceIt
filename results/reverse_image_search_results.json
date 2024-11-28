@@ -1,27 +1,43 @@
 [
     {
-        "./data/images\\pexels-photo-4238994.webp": {
-            "search_metadata_id": "6744421456f9701624e91dac",
+        "C:\\Users\\StarGate\\Documents\\TraceIt\\data\\images\\2CK09C2-1.jpg": {
+            "search_metadata_id": "67483c66b4e8d6d825eea1d9",
             "image_results": [
-                "https://www.memorial.com.tr/saglik-rehberi/adet-sokturucu-nedir-ne-ise-yarar",
-                "https://www.acibadem.com.tr/hayat/adet-sokturucu-nedir/",
-                "https://www.3a2ilati.com/article/%D8%A7%D9%81%D8%B1%D8%A7%D8%B2%D8%A7%D8%AA-%D8%A8%D9%86%D9%8A%D8%A9-%D8%A8%D8%B9%D8%AF-%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D8%A9-%D9%87%D9%84-%D8%A7%D8%AC%D8%A7%D9%85%D8%B9-%D8%B2%D9%88%D8%AC%D9%8A",
-                "https://www.jawhra.net/2022/07/reasons-for-delayed-menstruation-in-a-virgin-girl.html",
-                "https://au.pinterest.com/pin/845339792557571677/",
-                "https://ar.pinterest.com/pin/1070801248881046630/",
-                "https://www.thisisamombod.com/shop"
+                "https://en.wikipedia.org/wiki/Cape_Town",
+                "https://www.capetown.gov.za/",
+                "https://exclusivebooks.co.za/products/9781919939759",
+                "https://www.amazon.com/Cape-Town-Gerald-Hoberman/dp/191993958X",
+                "https://www.thetimes.com/world/africa/article/the-night-watch-mothers-take-on-gangs-in-cape-towns-murder-mile-hm7vq28k8",
+                "https://za.linkedin.com/company/fresh-solutions-western-cape",
+                "https://www.wordsworth.co.za/products/cape-town-3"
             ]
         }
     },
     {
-        "./data/images\\pexels-photo-7004697.jpeg": {
-            "search_metadata_id": "67444217b28e6b7f0379d5dd",
+        "C:\\Users\\StarGate\\Documents\\TraceIt\\data\\images\\abuja-citygate_thisday.jpg": {
+            "search_metadata_id": "67483c6a0c08f20cfc5338fd",
             "image_results": [
-                "https://cgitems.co.uk/members-gallery/painting555/",
-                "https://cgitems.co.uk/image-type/painting/",
-                "https://www.linkedin.com/posts/tamsinkate_you-are-the-author-of-your-story-if-you-activity-7181073046345035777-2ZYd",
-                "https://zreddix.com/EveryART",
-                "https://www.instagram.com/brushstrokes_by_vidhi/"
+                "https://www.alluringworld.com/abuja-city-gate/",
+                "https://artsandculture.google.com/asset/abuja-city-gate-fatima-muhammed/QwH1QuvLmeVsYg?hl=en",
+                "https://www.youtube.com/watch?v=lFWoH89v1gI",
+                "https://www.youtube.com/watch?v=YEh1c6MS2-s",
+                "https://connectciti.com/abuja/tourist-place/recreation-centre/abuja-city-gate/",
+                "https://www.facebook.com/photo.php?fbid=2231890470380210&id=1552292795006651&set=a.1574288489473748&locale=mk_MK",
+                "https://www.facebook.com/photo.php?fbid=2231890470380210&id=1552292795006651&set=a.1574288489473748&locale=nl_BE"
+            ]
+        }
+    },
+    {
+        "C:\\Users\\StarGate\\Documents\\TraceIt\\data\\images\\Shanghai-Tower-Gensler-San-Francisco-world-Oriental-2015.webp": {
+            "search_metadata_id": "67483c86acf7f82e6d7ba415",
+            "image_results": [
+                "https://en.wikipedia.org/wiki/Shanghai_Tower",
+                "https://www.travelchinaguide.com/attraction/shanghai/tower.htm?srsltid=AfmBOopwo2r3KWFBygN9Tiisjr1-79ImkQ7oPePs2bxxDwZIRvO5T8kF",
+                "https://tallslimtees.com/blogs/blog/the-chinese-house-the-second-tallest-building-shanghai-tower?srsltid=AfmBOootVQKmAWF9WHl4iKl7dwaerzCcvK_98rpXXikPMy3DPitT11VO",
+                "https://www.britannica.com/topic/Jin-Mao-Tower",
+                "https://archjourney.org/projects/oriental-pearl-tv-tower/",
+                "https://www.britannica.com/place/Shanghai",
+                "https://www.worldskate.org/inline-freestyle/news-inline-freestyle/3223-inline-freestyle-back-to-china-shanghai-will-host-the-2020-world-champs.html"
             ]
         }
     }

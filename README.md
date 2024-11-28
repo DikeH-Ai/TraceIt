@@ -8,13 +8,10 @@ TraceIt is an automated tool that performs reverse image searches using the Goog
 ## Table of Contents
 
 - [Project Overview](#project-overview)
+- [Demo](#demo)
 - [Requirements](#requirements)
 - [Setup](#setup)
 - [Modules](#modules)
-    - [serp_function.py](#serp-functionpy)
-    - [img_processor.py](#img-processorpy)
-    - [img_hash.py](#img-hashpy)
-    - [data_display.py](#data-displaypy)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
@@ -29,6 +26,9 @@ This project facilitates reverse image search and image comparison. It performs 
 2. Performs reverse image search using SerpAPI.
 3. Compares uploaded images using perceptual hashing to detect similarity.
 4. Displays search results and compares them against historical data.
+
+## Demo
+
 
 ## Requirements
 
@@ -108,12 +108,18 @@ This script handles the CLI for displaying results to the user. It uses the `inq
 ## Usage
 
 ### Running the Project
-First start by adding images t the data/image folder
-    (these images are to be processed)
+First start by cloning repo:
+
+```bash
+git clone https://github.com/DikeH-Ai/TraceIt.git
+```
+
+Add images t the data/image folder
+
 To run the project, execute the following command:
 
 ```bash
-python data_display.py
+python .\\src\\setup.py
 ```
 
 This will start the CLI for displaying image search results. You'll be prompted to select an image from the `./data/images/` directory and then choose to view the search results.

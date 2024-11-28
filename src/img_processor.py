@@ -44,7 +44,7 @@ def image_processor() -> list:
     """
     try:
         # Access image folder
-        image_path = "./data/images"
+        image_path = os.path.abspath("./data/images")
         files = os.listdir(image_path)  # get files
         # validate images and append to path list
         images = [os.path.join(image_path, image) for image in files if is_image(
